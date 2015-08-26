@@ -1,0 +1,17 @@
+D:\Project\GitHubProject\ImageServices\ImageServices\bin\ImageServices.dll.config
+D:\Project\GitHubProject\ImageServices\ImageServices\bin\ImageServices.dll
+D:\Project\GitHubProject\ImageServices\ImageServices\bin\ImageServices.pdb
+D:\Project\GitHubProject\ImageServices\ImageServices\bin\Newtonsoft.Json.dll
+D:\Project\GitHubProject\ImageServices\ImageServices\bin\System.Net.Http.Formatting.dll
+D:\Project\GitHubProject\ImageServices\ImageServices\bin\System.Web.Http.dll
+D:\Project\GitHubProject\ImageServices\ImageServices\bin\System.Web.Http.WebHost.dll
+D:\Project\GitHubProject\ImageServices\ImageServices\bin\Newtonsoft.Json.xml
+D:\Project\GitHubProject\ImageServices\ImageServices\bin\System.Net.Http.Formatting.xml
+D:\Project\GitHubProject\ImageServices\ImageServices\bin\System.Web.Http.xml
+D:\Project\GitHubProject\ImageServices\ImageServices\bin\System.Web.Http.WebHost.xml
+D:\Project\GitHubProject\ImageServices\ImageServices\bin\zh-Hans\System.Net.Http.Formatting.resources.dll
+D:\Project\GitHubProject\ImageServices\ImageServices\bin\zh-Hans\System.Web.Http.resources.dll
+D:\Project\GitHubProject\ImageServices\ImageServices\bin\zh-Hans\System.Web.Http.WebHost.resources.dll
+D:\Project\GitHubProject\ImageServices\ImageServices\obj\Debug\ImageServices.dll
+D:\Project\GitHubProject\ImageServices\ImageServices\obj\Debug\ImageServices.pdb
+D:\Project\GitHubProject\ImageServices\ImageServices\obj\Debug\ImageServices.csprojResolveAssemblyReference.cache
