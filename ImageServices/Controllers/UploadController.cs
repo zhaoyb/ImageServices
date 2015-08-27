@@ -1,8 +1,9 @@
-﻿using System;
+﻿using FastDFS.Client;
+using System;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Http;
-using FastDFS.Client;
 
 namespace ImageServices.Controllers
 {
@@ -11,8 +12,6 @@ namespace ImageServices.Controllers
         //CROS检测
         public void Options()
         {
-
-
         }
 
         public string Post()
@@ -21,9 +20,16 @@ namespace ImageServices.Controllers
             HttpPostedFile file = request.Files[0];
 
             string filename = "";
-            if (ConfigHelper.GetConfigString("SaveMode") == "Local")
+            if (ConfigHelper.GetConfigString("SaveMode") == "Local")  // 表示存储的是本地模式
             {
-                var savePath = "Upload\\" + GetPathRule();
+                var hostname = request.QueryString["host"] ?? "";   
+
+                if (hostname.StartsWith("www."))
+                {
+                    hostname = hostname.Remove(0, 4);
+                }
+                string savePath = string.Join("\\", hostname.Split('.').Reverse());
+                savePath += "\\Upload\\" + GetPathRule();
                 string localPath = Path.Combine(HttpRuntime.AppDomainAppPath, savePath);
                 if (!Directory.Exists(localPath))
                 {
@@ -31,11 +37,20 @@ namespace ImageServices.Controllers
                 }
 
                 string ex = Path.GetExtension(file.FileName);
-                filename = Guid.NewGuid().ToString("N") + ex;
+
+                if (ConfigHelper.GetConfigString("SaveFileRule") == "Guid")
+                {
+                    filename = Guid.NewGuid().ToString("N") + ex;
+                }
+                else
+                {
+                    filename = DateTime.Now.ToString("yyyyMMddHHmmssfff") + ex;
+                }
+
                 file.SaveAs(Path.Combine(localPath, filename));
                 filename = request.Url.Scheme + "://" + request.Url.Authority + "/" + savePath.Replace("\\", "/") + "/" + filename;
             }
-            else if (ConfigHelper.GetConfigString("SaveMode") == "Distributed")
+            else if (ConfigHelper.GetConfigString("SaveMode") == "Distributed")  //分布式模式
             {
                 byte[] fileData;
                 using (var binaryReader = new BinaryReader(file.InputStream))
@@ -48,7 +63,6 @@ namespace ImageServices.Controllers
                 return ConfigHelper.GetConfigString("TrackerHost") + FastDfsGlobalConfig.Config.GroupName + "/" + fileName;
             }
             return filename;
-
         }
 
         private string GetPathRule()
@@ -57,14 +71,16 @@ namespace ImageServices.Controllers
             {
                 case "YYYY":
                     return DateTime.Now.ToString("yyyy");
+
                 case "YYYYMM":
                     return DateTime.Now.ToString("yyyy") + "\\" + DateTime.Now.ToString("MM");
+
                 case "YYYYMMDD":
                     return DateTime.Now.ToString("yyyy") + "\\" + DateTime.Now.ToString("MM");
+
                 default:
                     return DateTime.Now.ToString("yyyy") + "\\" + DateTime.Now.ToString("MM") + "\\" + DateTime.Now.ToString("dd");
             }
         }
-
     }
 }

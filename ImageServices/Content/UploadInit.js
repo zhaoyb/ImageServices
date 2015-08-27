@@ -21,12 +21,14 @@ function UploadInit(filelist, pick, fileinputname, domain) {
         swf: domain + '/Content/Uploader.swf',
 
         // 文件接收服务端。
-        server: domain + '/api/Upload',
+        server: domain + '/api/Upload?host=' + document.location.hostname,
 
         // 选择文件的按钮。可选。
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
         pick: '#' + pick,
-
+        
+        duplicate:true,  //允许重复。
+        
         // 只允许选择文件，可选。
         accept: {
             title: 'Images',
@@ -38,13 +40,15 @@ function UploadInit(filelist, pick, fileinputname, domain) {
     // 当有文件添加进来的时候
     uploader.on('fileQueued', function (file) {
         var $li = $(
-            '<div id="' + file.id + '" class="file-item thumbnail">' +
-                '<img>' +
+                '<div id="' + file.id + '" class="file-item thumbnail">' +
+                    '<img>' +
+                    '<div class="info">' + file.name + '</div>' +
                 '</div>'
-        ),
+                ),
             $img = $li.find('img');
-
+        $list.empty(); //只显示一张缩略图
         $list.append($li);
+        $("#" + fileinputname).val("");
 
         // 创建缩略图
         uploader.makeThumb(file, function (error, src) {
